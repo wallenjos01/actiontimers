@@ -1,0 +1,15 @@
+[versions]
+junit = "5.10.2"
+slf4j = "2.0.16"
+jbr-anno = "24.0.1"
+mcore = "2.0.0-pre10"
+
+[libraries]
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref="jbr-anno" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
+mcore-common = { module = "org.wallentines:midnightcore-common", version.ref="mcore" }
+mcore-server = { module = "org.wallentines:midnightcore-server", version.ref="mcore" }
+mcore-fabric = { module = "org.wallentines:midnightcore-fabric", version.ref="mcore" }
