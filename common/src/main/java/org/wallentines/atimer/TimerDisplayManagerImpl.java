@@ -35,7 +35,7 @@ public class TimerDisplayManagerImpl implements TimerDisplayManager {
     @Override
     public void addDisplay(TimerDisplay display) {
         displays.add(display);
-        display.timer().onTick().register(this, timer -> send());
+        display.timer().onTick().register(this, 100, timer -> send());
     }
 
     public void tick() {
@@ -45,15 +45,22 @@ public class TimerDisplayManagerImpl implements TimerDisplayManager {
     private Component renderAll() {
         MutableComponent out = MutableComponent.empty();
         int drawn = 0;
-        for (TimerDisplay display : displays) {
-            if(!display.timer().isCancelled()) {
-                if(drawn > 0) {
-                    out.addChild(Component.text("   "));
-                }
-                drawn++;
-                out.addChild(display.format().resolve(context));
+
+        for(int i = 0 ; i < displays.size() ; i++) {
+            TimerDisplay display = displays.get(i);
+            if(display.timer().isCancelled()) {
+                displays.remove(i);
+                i--;
+                continue;
             }
+
+            if(drawn > 0) {
+                out.addChild(Component.text("   "));
+            }
+            drawn++;
+            out.addChild(display.format().resolve(context));
         }
+
         return out.toComponent();
     }
 
