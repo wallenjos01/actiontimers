@@ -1,7 +1,8 @@
 package org.wallentines.atimer.api;
 
+import net.minecraft.network.chat.Component;
 import org.wallentines.atimer.impl.TimerDisplayImpl;
-import org.wallentines.pseudonym.UnresolvedMessage;
+import org.wallentines.pseudonym.Message;
 
 public interface TimerDisplay {
 
@@ -9,7 +10,7 @@ public interface TimerDisplay {
      * Gets the format of this timer
      * @return An unresolved component which describes the timer's display text. Accepts the %time% placeholder.
      */
-    UnresolvedMessage<String> format();
+    Message<Component> format();
 
     /**
      * Gets the parent timer this display corresponds to.
@@ -18,7 +19,7 @@ public interface TimerDisplay {
     Timer timer();
 
 
-    static TimerDisplay create(Timer timer, UnresolvedMessage<String> format) {
+    static TimerDisplay create(Timer timer, Message<Component> format) {
         return new TimerDisplayImpl(timer, format);
     }
 

@@ -7,9 +7,8 @@ import net.minecraft.server.level.ServerPlayer;
 import org.wallentines.atimer.api.Timer;
 import org.wallentines.atimer.api.TimerDisplay;
 import org.wallentines.atimer.api.TimerDisplayManager;
+import org.wallentines.pseudonym.Message;
 import org.wallentines.pseudonym.PipelineContext;
-import org.wallentines.pseudonym.UnresolvedMessage;
-import org.wallentines.pseudonym.mc.api.ServerPlaceholders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class TimerDisplayManagerImpl implements TimerDisplayManager {
     }
 
     @Override
-    public void addTimer(Timer timer, UnresolvedMessage<String> format) {
+    public void addTimer(Timer timer, Message<Component> format) {
         addDisplay(new TimerDisplayImpl(timer, format));
     }
 
@@ -63,7 +62,7 @@ public class TimerDisplayManagerImpl implements TimerDisplayManager {
                 out.append(Component.literal("   "));
             }
             drawn++;
-            out.append(ServerPlaceholders.COMPONENT_RESOLVER.accept(display.format(), context));
+            out.append(display.format().get(context));
         }
 
         return out;

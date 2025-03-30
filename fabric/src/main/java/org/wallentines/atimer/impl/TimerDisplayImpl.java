@@ -1,31 +1,30 @@
 package org.wallentines.atimer.impl;
 
 
+import net.minecraft.network.chat.Component;
 import org.wallentines.atimer.api.Timer;
 import org.wallentines.atimer.api.TimerDisplay;
 import org.wallentines.pseudonym.PipelineContext;
-import org.wallentines.pseudonym.UnresolvedMessage;
+import org.wallentines.pseudonym.Message;
 
 import java.util.Optional;
 
 public class TimerDisplayImpl implements TimerDisplay {
 
     private final Timer timer;
-    private final UnresolvedMessage<String> format;
+    private final Message<Component> format;
 
-    public TimerDisplayImpl(Timer timer, UnresolvedMessage<String> format) {
+    public TimerDisplayImpl(Timer timer, Message<Component> format) {
         this.timer = timer;
-        this.format = new UnresolvedMessage<>(
-                format.parts(),
-                format.context().and(
-                        PipelineContext.builder().withContextPlaceholder(
-                                "time",
-                                ctx -> Optional.of(getTimeString())
-                        ).build()));
+        this.format = context ->
+                format.get(context.and(PipelineContext.builder()
+                        .withContextPlaceholder("time", ctx -> Optional.of(getTimeString()))
+                        .build())
+                );
     }
 
     @Override
-    public UnresolvedMessage<String> format() {
+    public Message<Component> format() {
         return format;
     }
 
