@@ -3,7 +3,7 @@ import buildlogic.Utils
 plugins {
     id("build.library")
     id("build.fabric")
-    id("build.shadow")
+    id("build.publish")
 }
 
 Utils.setupResources(project, rootProject, "fabric.mod.json")
