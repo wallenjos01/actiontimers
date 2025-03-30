@@ -12,9 +12,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.wallentines.atimer.TimerDisplayManagerHolder;
-import org.wallentines.atimer.TimerDisplayManagerImpl;
-import org.wallentines.mcore.Player;
+import org.wallentines.atimer.impl.TimerDisplayManagerHolder;
+import org.wallentines.atimer.impl.TimerDisplayManagerImpl;
 
 @Mixin(ServerPlayer.class)
 @Implements(@Interface(iface= TimerDisplayManagerHolder.class, prefix = "atimer$"))
@@ -25,7 +24,7 @@ public class MixinServerPlayer {
 
     @Inject(method="<init>", at=@At("RETURN"))
     private void onInit(MinecraftServer minecraftServer, ServerLevel serverLevel, GameProfile gameProfile, ClientInformation clientInformation, CallbackInfo ci) {
-        atimer$manager = new TimerDisplayManagerImpl((Player) this);
+        atimer$manager = new TimerDisplayManagerImpl((ServerPlayer) (Object) this);
     }
 
     @Inject(method="tick", at=@At("TAIL"))
@@ -35,8 +34,8 @@ public class MixinServerPlayer {
 
     @Inject(method="restoreFrom", at=@At("TAIL"))
     private void onRestore(ServerPlayer serverPlayer, boolean bl, CallbackInfo ci) {
-        atimer$manager = (TimerDisplayManagerImpl) TimerDisplayManagerHolder.get((Player) serverPlayer);
-        atimer$manager.setPlayer((Player) this);
+        atimer$manager = (TimerDisplayManagerImpl) TimerDisplayManagerHolder.get(serverPlayer);
+        atimer$manager.setPlayer((ServerPlayer) (Object) this);
     }
 
     @Unique

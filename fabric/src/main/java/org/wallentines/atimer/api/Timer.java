@@ -1,9 +1,8 @@
-package org.wallentines.atimer;
+package org.wallentines.atimer.api;
 
-import org.jetbrains.annotations.Nullable;
-import org.wallentines.mcore.Server;
-import org.wallentines.midnightlib.event.HandlerList;
-import org.wallentines.midnightlib.types.Singleton;
+import net.fabricmc.fabric.api.event.Event;
+import net.minecraft.server.MinecraftServer;
+import org.wallentines.atimer.impl.TimerImpl;
 
 public interface Timer {
 
@@ -11,7 +10,7 @@ public interface Timer {
      * Returns an event invoked once a second
      * @return An event
      */
-    HandlerList<Timer> onTick();
+    Event<Tick> onTick();
 
     /**
      * Starts the timer's ticking
@@ -60,21 +59,15 @@ public interface Timer {
      * @param server A running server
      * @return A new Timer
      */
-    @Nullable
-    static Timer create(Server server) {
-        Factory f = Factory.Holder.FACTORY.getOrNull();
-        if(f == null) return null;
-        return f.create(server);
+    static Timer create(MinecraftServer server) {
+        return TimerImpl.create(server);
     }
 
-
-    interface Factory {
-
-        Timer create(Server server);
-
-        class Holder {
-            public static final Singleton<Factory> FACTORY = new Singleton<>();
-        }
+    /**
+     * Tick event handler
+     */
+    interface Tick {
+        void tick(Timer timer);
     }
 
 }

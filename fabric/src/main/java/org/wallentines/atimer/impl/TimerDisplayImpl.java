@@ -1,20 +1,31 @@
-package org.wallentines.atimer;
+package org.wallentines.atimer.impl;
 
-import org.wallentines.mcore.lang.CustomPlaceholder;
-import org.wallentines.mcore.lang.UnresolvedComponent;
+
+import org.wallentines.atimer.api.Timer;
+import org.wallentines.atimer.api.TimerDisplay;
+import org.wallentines.pseudonym.PipelineContext;
+import org.wallentines.pseudonym.UnresolvedMessage;
+
+import java.util.Optional;
 
 public class TimerDisplayImpl implements TimerDisplay {
 
     private final Timer timer;
-    private final UnresolvedComponent format;
+    private final UnresolvedMessage<String> format;
 
-    public TimerDisplayImpl(Timer timer, UnresolvedComponent format) {
+    public TimerDisplayImpl(Timer timer, UnresolvedMessage<String> format) {
         this.timer = timer;
-        this.format = format.copyWith(CustomPlaceholder.inline("time", this::getTimeString));
+        this.format = new UnresolvedMessage<>(
+                format.parts(),
+                format.context().and(
+                        PipelineContext.builder().withContextPlaceholder(
+                                "time",
+                                ctx -> Optional.of(getTimeString())
+                        ).build()));
     }
 
     @Override
-    public UnresolvedComponent format() {
+    public UnresolvedMessage<String> format() {
         return format;
     }
 

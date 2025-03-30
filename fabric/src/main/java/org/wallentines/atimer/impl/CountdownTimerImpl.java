@@ -1,16 +1,17 @@
-package org.wallentines.atimer;
+package org.wallentines.atimer.impl;
 
-import org.wallentines.mcore.Server;
+import net.minecraft.server.MinecraftServer;
+import org.wallentines.atimer.api.CountdownTimer;
 
 public class CountdownTimerImpl extends TimerImpl implements CountdownTimer {
 
     private final int duration;
 
-    public CountdownTimerImpl(Server server, int duration) {
-        super(server);
+    public CountdownTimerImpl(TimerManager manager, int duration) {
+        super(manager);
         this.duration = duration;
 
-        onTick().register(this, timer -> {
+        onTick().register(timer -> {
             int remaining = this.duration - elapsed();
             if (remaining == 0) {
                 stop();
@@ -32,5 +33,9 @@ public class CountdownTimerImpl extends TimerImpl implements CountdownTimer {
     @Override
     public int time() {
         return remaining();
+    }
+
+    public static CountdownTimer create(MinecraftServer server, int time) {
+        return new CountdownTimerImpl(TimerManagerHolder.get(server), time);
     }
 }

@@ -1,3 +1,3 @@
 rootProject.name = "actiontimers"
 
-include("api", "common", "fabric")
+include("fabric")
