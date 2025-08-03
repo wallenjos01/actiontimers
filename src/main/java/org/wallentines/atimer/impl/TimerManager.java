@@ -1,12 +1,11 @@
 package org.wallentines.atimer.impl;
 
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TimerManager {
 
-    private final List<TimerImpl> runningTimers = new ArrayList<>();
+    private final List<TimerImpl> runningTimers = new CopyOnWriteArrayList<>();
 
     public void startTracking(TimerImpl timer) {
         runningTimers.add(timer);
@@ -17,7 +16,8 @@ public class TimerManager {
     }
 
     public void tick() {
-        for(TimerImpl timer : runningTimers) {
+
+        for (TimerImpl timer : runningTimers) {
             timer.tick();
         }
     }
