@@ -2,13 +2,13 @@ package org.wallentines.atimer.impl;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import org.wallentines.atimer.api.Timer;
 
 public class TimerImpl implements Timer {
 
-    public static final ResourceLocation LATE_PHASE = ResourceLocation.tryBuild("atimer", "late");
+    public static final Identifier LATE_PHASE = Identifier.tryBuild("atimer", "late");
 
     private final Event<Tick> tickEvent = EventFactory.createArrayBacked(Timer.Tick.class, listeners -> (timer) -> {
         for (Timer.Tick tick : listeners) {

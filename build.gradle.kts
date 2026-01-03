@@ -10,14 +10,12 @@ Utils.setupResources(project, rootProject, "fabric.mod.json")
 
 dependencies {
 
-    minecraft("com.mojang:minecraft:1.21.10")
+    minecraft("com.mojang:minecraft:${project.properties["minecraft-version"]}")
     mappings(loom.officialMojangMappings())
-    modImplementation("net.fabricmc:fabric-loader:0.18.1")
+    modImplementation("net.fabricmc:fabric-loader:${project.properties["fabric-loader-version"]}")
 
-    compileOnly(libs.pseudonym)
-    compileOnly(libs.midnightcfg)
-    modCompileOnly(libs.pseudonym.minecraft)
-    modCompileOnly(libs.midnightcfg.minecraft)
+    modImplementation(libs.pseudonym.minecraft)
+    modImplementation(libs.midnightcfg.minecraft)
 
 }
 

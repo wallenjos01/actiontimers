@@ -1,9 +1,9 @@
 [versions]
 slf4j = "2.0.11"
 jbr-anno = "24.1.0"
-midnightcfg = "3.5.0"
-pseudonym = "0.4.1"
-databridge = "0.9.0"
+midnightcfg = "3.5.2"
+pseudonym = "0.4.4"
+databridge = "0.10.0"
 
 [libraries]
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
